@@ -39,6 +39,8 @@ namespace CRUDEMOVIESWEBAPI.Repository
                  //   await _movieRepo.AddNewMovie(movies, res);
                 }
                 else
+                    movies.createdBy=actor.createdBy;
+
                     await _movieRepo.AddNewMovie(movies, res);
 
                 return - 1;
