@@ -27,6 +27,21 @@ namespace CRUDEMOVIESWEBAPI.Controllers
             var result = await _movieRepository.GetAllMovies();
             return Ok(result);
         }
+        [HttpPost("AddNewRealeasedMovie")]
+        public async Task<IActionResult> AddNewRealeased(MovieTicketPrice mtprice)
+        {
+            var result=await _movieRepository.AddNewRealeaseList(mtprice);
+            if(result ==0)
+            {
+                return StatusCode(500, "movie not exist");
+            }
+    
+            else
+                return StatusCode(200, "movie inserted successfully");
+
+
+
+        }
 
     }
 }

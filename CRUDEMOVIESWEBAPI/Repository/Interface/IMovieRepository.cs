@@ -8,5 +8,6 @@ namespace CRUDEMOVIESWEBAPI.Repository.Interface
         Task<int> UpdateMovies(Movie movies);
         Task<int> DeleteMovies(int id);
         Task<List<Movie>> GetAllMovies();
+        Task<int> AddNewRealeaseList(MovieTicketPrice movieticketprice);
     }
 }

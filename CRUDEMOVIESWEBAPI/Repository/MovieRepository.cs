@@ -70,5 +70,26 @@ namespace CRUDEMOVIESWEBAPI.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task<int> AddNewRealeaseList(MovieTicketPrice movieticketprice)
+        {
+            string query = "insert into tblMovieTicketPrice (mTitle,tPrice,mId) values(@mTitle,@tPrice,@mId)";
+            using (var connection = _context.CreateConnection())
+            {
+                var moviename = await connection.QuerySingleOrDefaultAsync(@"select*from tblMovie where mTitle=@mTitle", new { mTitle = movieticketprice.mTitle });
+                if (moviename == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    var resutl = await connection.ExecuteAsync(query, movieticketprice);
+
+                    
+                    return resutl;
+                }
+            }
+
+        }
     }
 }
