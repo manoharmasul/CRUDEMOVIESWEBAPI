@@ -37,7 +37,7 @@ namespace CRUDEMOVIESWEBAPI.Repository
                     var mId = await connection.QuerySingleAsync<int>(query, movies);
                     await _movieCastRepo.AddMoviesCast(mc, res, mId, movies.rol, movies.createdBy);
                     await _directionRepository.AddmovieDirection(md, mId, movies.dId,movies.createdBy);
-                     ret = await connection.QuerySingleOrDefaultAsync<int>(@"select noofMovies from tblDirector where dId=@dId ", new { noofMovies = ret, movies.dId }); ; ; ;
+                     ret = await connection.QuerySingleOrDefaultAsync<int>(@"select noofMovies from tblDirector where dId=@dId ", new { noofMovies = ret, movies.dId }); 
                     ret += 1;
 
                     await _directorRepo.UpdateDirector(movies.dId, ret);

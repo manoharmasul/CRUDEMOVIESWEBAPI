@@ -104,26 +104,23 @@ namespace CRUDEMOVIESWEBAPI.ShoppingRepository
                 }
                 else
                 {
-                    var acbalance = await connection.QuerySingleOrDefaultAsync<double>
-                   (@"select accountBalance from tblCustomer where cId=@cId and bId=@bId", new { cId = custId, bId = bId });
-                    if(acbalance<ticketprice)
+                    var ret = await _CustRepo.Trnsaction(custId, ticketprice, "Debit");
+
+                    if (ret == -3)
                     {
 
-                        return -1;
-                    }
-                    else
-                    {
-                       acbalance-=ticketprice;
+                        
 
-                        var result = await connection.ExecuteAsync
-                       (@"update tblCustomer set accountBalance=@accountBalance where cId=@cId and bId=@bId", 
-                       new { cId = custId, bId = bId, accountBalance= acbalance });
-                        
-                        
-                        return result;  
+
+                        return ret;
                     }
-                   
+                    else if (ret == -4)
+                    {
+                        return ret;
+                    }
+                    return (int)ticketprice;
                 }
+               
 
             }
         }

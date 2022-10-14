@@ -17,18 +17,33 @@ namespace CRUDEMOVIESWEBAPI.ControllerForBank
         [HttpPost("BOOK MOVIE TICKET")]
         public async Task<IActionResult> BookTicket(int mId ,int custId, int bId)
         {
+            if(custId!=0||mId!=0||bId!=0)
+            { 
             var result=await _shopRepos.TicketBooking(mId, custId, bId);
-            if (result == 0)
-            {
-                return NotFound();
+           
+                if (result == 0)
+                {
+                    return NotFound();
 
-            }
-            else if (result == -1)
-            {
-                return StatusCode(500, "your A/C balance is not enough....!");
+                }
+
+                else if (result == -3)
+                {
+                    return StatusCode(500, "Your Transaction Not  complited because your account balance not enough....!");
+                }
+                else if (result == -4)
+                {
+
+                    return StatusCode(200, "Your account balace is not enough...but your transaction is complited by creadit");
+
+                }
+                else
+                    return StatusCode(200, "Your Ticket Booking is Success full...!");
             }
             else
-                return StatusCode(200, "Your Ticket Booking is Success full...!");
+            {
+                return StatusCode(500, "request is empty");
+            }
         }
         [HttpPost("Shop Now")]
         public async Task<IActionResult> ShopNow(OrderDeatails orderDeatails)

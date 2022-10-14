@@ -1,6 +1,10 @@
 using CRUDEMOVIESWEBAPI.Context;
 using CRUDEMOVIESWEBAPI.Repository;
 using CRUDEMOVIESWEBAPI.Repository.Interface;
+using CRUDEMOVIESWEBAPI.ShoppingRepository;
+using CRUDEMOVIESWEBAPI.ShoppingRepository.InterfaceShoping;
+using LoandLoanAproveBankCustomer.Repository.Class;
+using LoandLoanAproveBankCustomer.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +18,10 @@ builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
 builder.Services.AddScoped<IhitorfloporBlockbusterRepository, HitFlopOrBlockbusterRepository>();
 builder.Services.AddScoped<IReviwerRepository, ReviewerRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+builder.Services.AddScoped<IAproveLoansRepository, AproveLoansRepository>();
+builder.Services.AddScoped<IBankRepository, BankRepository>();  
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IShopingRepository, ShopingRepository>();
 
 
 
