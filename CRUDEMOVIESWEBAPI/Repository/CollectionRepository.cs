@@ -32,8 +32,11 @@ namespace CRUDEMOVIESWEBAPI.Repository
                     if (movId != 0)
                     {
                         var dummy = collection.createdBy;
-                      //  collection.modifiedBy = dummy;
-                        var update = await connection.ExecuteAsync("update tblCollection set totalCollection=@totalCollection,modifiedBy=@modifiedBy,modifiedDate=getDate() where mId=@mId", new { mId = movId, totalCollection=collection.totalCollection, modifiedBy = dummy });
+                        var oldcollection = await connection.QuerySingleOrDefaultAsync<double>(@"select totalCollection from tblCollection where mId=@mId", new { mId = collection.mId });
+                        
+                        var updatedcollection=oldcollection + collection.totalCollection;
+                        //  collection.modifiedBy = dummy;
+                        var update = await connection.ExecuteAsync("update tblCollection set totalCollection=@totalCollection,modifiedBy=@modifiedBy,modifiedDate=getDate() where mId=@mId", new { mId = movId, totalCollection= updatedcollection, modifiedBy = dummy });
 
                         var midhitflop = await connection.QuerySingleOrDefaultAsync<int>(@"select mId from tblhitorfloporBlockbuster where mId=@mId", new { mId = collection.mId });
                         if (midhitflop != 0)

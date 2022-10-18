@@ -1,5 +1,7 @@
 ﻿using CRUDEMOVIESWEBAPI.Context;
 using CRUDEMOVIESWEBAPI.MallModel;
+using CRUDEMOVIESWEBAPI.Model;
+using CRUDEMOVIESWEBAPI.Repository.Interface;
 using CRUDEMOVIESWEBAPI.ShoppingRepository.InterfaceShoping;
 using Dapper;
 using LoandLoanAproveBankCustomer.Model;
@@ -10,14 +12,17 @@ namespace CRUDEMOVIESWEBAPI.ShoppingRepository
 {
     public class ShopingRepository: IShopingRepository
     {
+        Collection cl = new Collection();
+        private readonly ICollectionRepository _colleRepo;
         Customer cust = new Customer();
         private readonly ICustomerRepository _CustRepo;
         private readonly DapperContext _dapperContext;
 
-        public ShopingRepository(DapperContext dapperContext,ICustomerRepository customerRepository)
+        public ShopingRepository(DapperContext dapperContext,ICustomerRepository customerRepository,ICollectionRepository collectionRepository)
         {
             _dapperContext = dapperContext;
             _CustRepo = customerRepository; 
+            _colleRepo = collectionRepository;  
         }
 
         public async Task<double> PlaceOrder(OrderDeatails orderDetails)
@@ -91,12 +96,13 @@ namespace CRUDEMOVIESWEBAPI.ShoppingRepository
             }
         }
 
-        public async Task<int> TicketBooking(int mId, int custId, int bId)
+        public async Task<int> TicketBooking(int mId, int custId, int bId,int Qty)
         {
             using(var connection=_dapperContext.CreateConnection())
             {
                 var ticketprice=await connection.QuerySingleOrDefaultAsync<double>
-                (@"select tPrice from tblMovieTicketPrice where mId=@mId",new {mId=mId}); 
+                (@"select tPrice from tblMovieTicketPrice where mId=@mId",new {mId=mId});
+                ticketprice *= Qty;
                 if(ticketprice==0)
                 {
                     return 0;
@@ -108,8 +114,7 @@ namespace CRUDEMOVIESWEBAPI.ShoppingRepository
 
                     if (ret == -3)
                     {
-
-                        
+          
 
 
                         return ret;
@@ -118,6 +123,11 @@ namespace CRUDEMOVIESWEBAPI.ShoppingRepository
                     {
                         return ret;
                     }
+                    cl.mId = mId;
+                    cl.totalCollection = ticketprice;
+                   
+                  _colleRepo.AddMoviesCollection(cl);
+
                     return (int)ticketprice;
                 }
                

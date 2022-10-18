@@ -15,11 +15,11 @@ namespace CRUDEMOVIESWEBAPI.ControllerForBank
             _shopRepos = shopRepos;
         }
         [HttpPost("BOOK MOVIE TICKET")]
-        public async Task<IActionResult> BookTicket(int mId ,int custId, int bId)
+        public async Task<IActionResult> BookTicket(int mId ,int custId, int bId,int Qty)
         {
             if(custId!=0||mId!=0||bId!=0)
             { 
-            var result=await _shopRepos.TicketBooking(mId, custId, bId);
+            var result=await _shopRepos.TicketBooking(mId, custId, bId,Qty);
            
                 if (result == 0)
                 {
