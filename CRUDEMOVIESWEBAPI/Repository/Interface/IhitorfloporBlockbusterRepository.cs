@@ -6,5 +6,7 @@ namespace CRUDEMOVIESWEBAPI.Repository.Interface
     {
         Task<int> AddNewHitOrFlopOrBlockbustrer(hitorfloporBlockbuster hitorflopor);
         Task<int> UpdateHitOrFlopOrBlockbustrer(hitorfloporBlockbuster hitorflopor);
+        Task<HiFlopByActor> GetHitorflopor(int id);
+       
     }
 }
