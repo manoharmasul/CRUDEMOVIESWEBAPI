@@ -20,5 +20,11 @@ namespace CRUDEMOVIESWEBAPI.Controllers
             var result = await _hitorfloporBlockbusterRepository.AddNewHitOrFlopOrBlockbustrer(hitorflopor);
             return Ok(result);
         }
+        [HttpGet("GetHitFlopBlockbuster")]
+        public async Task<IActionResult> GetHitFlopBlock(int id)
+        {
+            var result = await _hitorfloporBlockbusterRepository.GetHitorflopor(id);
+            return Ok(result);
+        }
     }
 }
